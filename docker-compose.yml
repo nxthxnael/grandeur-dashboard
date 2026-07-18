@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: grandeur-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: grandeur_dlrs
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: grandeur-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  mock-mpesa:
+    image: node:18-alpine
+    container_name: grandeur-mock-mpesa
+    command: >
+      node -e "
+      const http = require('http');
+      const server = http.createServer((req, res) => {
+        if (req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => body += chunk);
+          req.on('end', () => {
+            console.log('M-PESA B2C Request received:', body);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+              MerchantRequestID: 'mock-' + Math.random().toString(36).substr(2, 9),
+              CheckoutRequestID: 'mock-co-' + Math.random().toString(36).substr(2, 9),
+              ResponseCode: '0',
+              ResponseDescription: 'Accept the service request successfully.'
+            }));
+          });
+        } else {
+          res.writeHead(404);
+          res.end();
+        }
+      });
+      server.listen(8080, () => console.log('Mock M-PESA/Daraja listening on port 8080'));
+      "
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
+  redis_data:
