@@ -1,0 +1,9 @@
+{
+  "name": "@grandeur/shared",
+  "version": "1.0.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}
