@@ -1,0 +1,22 @@
+{
+  "name": "@grandeur/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Building NestJS app...'",
+    "start": "node dist/main.js",
+    "dev": "echo 'Starting dev NestJS app...'",
+    "test": "echo 'Running NestJS tests...'"
+  },
+  "dependencies": {
+    "@grandeur/shared": "1.0.0",
+    "@nestjs/common": "^10.3.3",
+    "@nestjs/core": "^10.3.3",
+    "reflect-metadata": "^0.2.1",
+    "rxjs": "^7.8.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
