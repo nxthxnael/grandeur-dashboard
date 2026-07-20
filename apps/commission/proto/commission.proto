@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package commission;
+
+option go_package = "apps/commission/proto;commission";
+
+service CommissionEngine {
+  rpc CalculateCommission (CalculateCommissionRequest) returns (CalculateCommissionResponse);
+}
+
+message CalculateCommissionRequest {
+  string domain_id = 1;
+  string member_id = 2;
+  int64 sale_amount_cents = 3; // KES hundredths
+  repeated string ancestor_ids = 4; // Ordered path from direct referrer upwards (1 to 11 levels)
+}
+
+message LedgerEntry {
+  string member_id = 1;
+  int64 gross_commission_cents = 2;
+  int64 wt_withheld_cents = 3; // Withholding Tax at 10%
+  int64 net_payout_cents = 4;
+}
+
+message CalculateCommissionResponse {
+  repeated LedgerEntry entries = 1;
+  int64 aggregate_cap_exceeded_cents = 2; // Amount capped if exceeding 50% threshold
+}
