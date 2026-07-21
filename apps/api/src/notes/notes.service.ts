@@ -3,12 +3,7 @@ import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Cache } from "cache-manager";
 import { Pool } from "pg";
 import { DATABASE_POOL } from "../database/tokens";
-
-export interface CreateNoteDto {
-  content: string;
-  owner: "Dev" | "Chairman";
-  category: string;
-}
+import { CreateNoteDto } from "./notes.dto";
 
 export interface Note {
   id: string;
