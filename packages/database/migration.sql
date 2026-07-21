@@ -57,8 +57,20 @@ CREATE TABLE IF NOT EXISTS points_ledger (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Notes Table
+CREATE TABLE IF NOT EXISTS notes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    content TEXT NOT NULL,
+    owner VARCHAR(20) NOT NULL CHECK (owner IN ('Dev', 'Chairman')),
+    category VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_member_tree_descendant ON member_tree(descendant_id);
 CREATE INDEX IF NOT EXISTS idx_member_tree_depth ON member_tree(depth);
 CREATE INDEX IF NOT EXISTS idx_points_ledger_member ON points_ledger(member_id);
 CREATE INDEX IF NOT EXISTS idx_points_ledger_status ON points_ledger(status);
+CREATE INDEX IF NOT EXISTS idx_notes_owner ON notes(owner);
+CREATE INDEX IF NOT EXISTS idx_notes_category ON notes(category);
+CREATE INDEX IF NOT EXISTS idx_notes_created_at ON notes(created_at);
