@@ -15,8 +15,5 @@
   },
   "devDependencies": {
     "turbo": "^2.0.4"
-  },
-  "dependencies": {
-    "@supabase/server": "^1.4.0"
   }
 }
