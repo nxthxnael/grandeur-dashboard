@@ -1,3 +1,6 @@
+-- Enable pgcrypto extension for UUID generation
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- Create users table
 CREATE TYPE user_role AS ENUM ('SUPER_ADMIN', 'USER');
 
