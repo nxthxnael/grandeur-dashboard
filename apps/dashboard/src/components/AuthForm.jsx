@@ -1,14 +1,15 @@
-import { useState } from 'react';
-import { Mail, Lock, AlertCircle } from 'lucide-react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Mail, Lock, AlertCircle } from "lucide-react";
 
 export function AuthForm({ type, onSubmit, error, loading }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (type === 'signup' && password !== confirmPassword) {
+    if (type === "signup" && password !== confirmPassword) {
       return;
     }
     onSubmit({ email, password });
@@ -18,12 +19,12 @@ export function AuthForm({ type, onSubmit, error, loading }) {
     <div className="auth-container">
       <div className="auth-card">
         <h1 className="auth-title">
-          {type === 'login' ? 'Sign In' : 'Create Account'}
+          {type === "login" ? "Sign In" : "Create Account"}
         </h1>
         <p className="auth-subtitle">
-          {type === 'login'
-            ? 'Welcome back to Grandeur Dashboard'
-            : 'Join Grandeur Dashboard'}
+          {type === "login"
+            ? "Welcome back to Grandeur Dashboard"
+            : "Join Grandeur Dashboard"}
         </p>
 
         {error && (
@@ -67,7 +68,7 @@ export function AuthForm({ type, onSubmit, error, loading }) {
             </div>
           </div>
 
-          {type === 'signup' && (
+          {type === "signup" && (
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <div className="input-wrapper">
@@ -92,26 +93,32 @@ export function AuthForm({ type, onSubmit, error, loading }) {
           <button
             type="submit"
             className="auth-button"
-            disabled={loading || (type === 'signup' && password !== confirmPassword)}
+            disabled={
+              loading || (type === "signup" && password !== confirmPassword)
+            }
           >
-            {loading ? 'Loading...' : type === 'login' ? 'Sign In' : 'Create Account'}
+            {loading
+              ? "Loading..."
+              : type === "login"
+                ? "Sign In"
+                : "Create Account"}
           </button>
         </form>
 
         <div className="auth-footer">
-          {type === 'login' ? (
+          {type === "login" ? (
             <p>
-              Don't have an account?{' '}
-              <a href="/signup" className="auth-link">
+              Don't have an account?{" "}
+              <Link to="/signup" className="auth-link">
                 Sign up
-              </a>
+              </Link>
             </p>
           ) : (
             <p>
-              Already have an account?{' '}
-              <a href="/login" className="auth-link">
+              Already have an account?{" "}
+              <Link to="/login" className="auth-link">
                 Sign in
-              </a>
+              </Link>
             </p>
           )}
         </div>

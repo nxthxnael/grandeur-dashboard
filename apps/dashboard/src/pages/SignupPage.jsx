@@ -1,37 +1,38 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthForm } from '../components/AuthForm';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthForm } from "../components/AuthForm";
+import { API_BASE_URL } from "../config/apiClient";
 
 export function SignupPage() {
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async ({ email, password }) => {
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3000/v1/auth/register', {
-        method: 'POST',
+      const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+        throw new Error(data.message || "Registration failed");
       }
 
       if (!data.approved) {
-        setError('Registration successful. Please wait for admin approval.');
-        setTimeout(() => navigate('/login'), 3000);
+        setError("Registration successful. Please wait for admin approval.");
+        setTimeout(() => navigate("/login"), 3000);
       } else {
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     } catch (err) {
       setError(err.message);
