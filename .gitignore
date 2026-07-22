@@ -6,4 +6,5 @@ dist/
 .env
 *.env
 apps/*/.env
-.env*
+.env.local
+.env.*.local
