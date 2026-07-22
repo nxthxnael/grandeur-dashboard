@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { DatabaseModule } from "./database/database.module";
 import { NotesModule } from "./notes/notes.module";
+import { AuthModule } from "./auth/auth.module";
 import { AuthController } from "./auth/auth.controller";
 import { DomainController } from "./domains/domain.controller";
 import { PointsController } from "./points/points.controller";
@@ -21,6 +22,7 @@ const rootDir = path.resolve(__dirname, "../../../");
     }),
     DatabaseModule,
     NotesModule,
+    AuthModule,
   ],
   controllers: [AuthController, DomainController, PointsController],
 })
