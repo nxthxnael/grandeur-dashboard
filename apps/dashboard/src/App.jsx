@@ -21,6 +21,8 @@ import {
   StickyNote,
 } from "lucide-react";
 import "./App.css";
+import { useNotes } from "./hooks/useNotes";
+import { NotesPanel } from "./components/NotesPanel";
 
 const PHASES = [
   {
@@ -974,7 +976,7 @@ const store = {
   },
 };
 
-function Badge({ text, color, bg }) {
+export function Badge({ text, color, bg }) {
   return (
     <span
       className="badge mono-display"
@@ -1011,17 +1013,11 @@ export default function App() {
   const [filter, setFilter] = useState("all");
   const [loaded, setLoaded] = useState(false);
 
-  // Notes feature state
-  const [notes, setNotes] = useState([]);
-  const [noteForm, setNoteForm] = useState({
-    content: "",
-    owner: "Dev",
-    category: "",
-  });
-  const [notesLoading, setNotesLoading] = useState(false);
-  const [notesError, setNotesError] = useState(null);
-
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+  // Notes feature hook
+  const { notes, noteForm, setNoteForm, notesLoading, notesError, createNote } =
+    useNotes(API_URL, store);
 
   useEffect(() => {
     async function load() {
@@ -1067,82 +1063,6 @@ export default function App() {
     setRiskStatus(next);
     save(taskStatus, taskNotes, next);
   };
-
-  // Notes API functions
-  const fetchNotes = useCallback(async () => {
-    setNotesLoading(true);
-    setNotesError(null);
-    try {
-      const response = await fetch(`${API_URL}/v1/notes`);
-      if (!response.ok) throw new Error("Failed to fetch notes");
-      const data = await response.json();
-      setNotes(data);
-
-      // Fallback to local storage
-      store.set("dlrs_notes", JSON.stringify(data));
-    } catch (error) {
-      console.error("Error fetching notes:", error);
-      setNotesError("Failed to load notes from server. Using local fallback.");
-
-      // Try local storage fallback
-      try {
-        const localNotes = store.get("dlrs_notes");
-        if (localNotes) {
-          setNotes(JSON.parse(localNotes.value));
-        }
-      } catch (localError) {
-        console.error("Error loading local notes:", localError);
-      }
-    } finally {
-      setNotesLoading(false);
-    }
-  }, [API_URL]);
-
-  const createNote = async (e) => {
-    e.preventDefault();
-
-    setNotesLoading(true);
-    setNotesError(null);
-    try {
-      const response = await fetch(`${API_URL}/v1/notes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(noteForm),
-      });
-      if (!response.ok) throw new Error("Failed to create note");
-      const newNote = await response.json();
-
-      setNotes((prev) => {
-        const next = [newNote, ...prev];
-        store.set("dlrs_notes", JSON.stringify(next));
-        return next;
-      });
-      setNoteForm({ content: "", owner: "Dev", category: "" });
-    } catch (error) {
-      console.error("Error creating note:", error);
-      setNotesError("Failed to save note to server. Saved locally only.");
-
-      // Local fallback
-      const localNote = {
-        id: Date.now().toString(),
-        ...noteForm,
-        created_at: new Date().toISOString(),
-      };
-      setNotes((prev) => {
-        const next = [localNote, ...prev];
-        store.set("dlrs_notes", JSON.stringify(next));
-        return next;
-      });
-      setNoteForm({ content: "", owner: "Dev", category: "" });
-    } finally {
-      setNotesLoading(false);
-    }
-  };
-
-  // Load notes on mount
-  useEffect(() => {
-    fetchNotes();
-  }, [fetchNotes]);
 
   const getPhaseStats = (phase) => {
     const tasks = phase.tasks;
@@ -1971,176 +1891,14 @@ export default function App() {
 
         {/* NOTES TAB */}
         {activeTab === "notes" && (
-          <div>
-            <div className="notes-container">
-              <div className="notes-form-section">
-                <h2 className="section-header">
-                  <StickyNote size={18} style={{ color: "var(--primary)" }} />
-                  Add New Note
-                </h2>
-                <form onSubmit={createNote} className="notes-form">
-                  <div className="form-group">
-                    <label className="form-label">Content</label>
-                    <textarea
-                      className="form-textarea"
-                      value={noteForm.content}
-                      onChange={(e) =>
-                        setNoteForm({ ...noteForm, content: e.target.value })
-                      }
-                      placeholder="Enter your note content..."
-                      rows={4}
-                      required
-                    />
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label className="form-label">Owner</label>
-                      <select
-                        className="form-select"
-                        value={noteForm.owner}
-                        onChange={(e) =>
-                          setNoteForm({ ...noteForm, owner: e.target.value })
-                        }
-                      >
-                        <option value="Dev">Dev</option>
-                        <option value="Chairman">Chairman</option>
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Category</label>
-                      <input
-                        className="form-input"
-                        type="text"
-                        value={noteForm.category}
-                        onChange={(e) =>
-                          setNoteForm({ ...noteForm, category: e.target.value })
-                        }
-                        placeholder="e.g., Architecture, Bug, Feature"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn-primary"
-                    disabled={
-                      notesLoading ||
-                      !noteForm.content.trim() ||
-                      !noteForm.category.trim()
-                    }
-                    style={{
-                      marginTop: "16px",
-                      padding: "10px 20px",
-                      fontSize: "14px",
-                      fontWeight: 600,
-                      borderRadius: "var(--radius-sm)",
-                      border: "none",
-                      backgroundColor: "var(--primary)",
-                      color: "white",
-                      cursor:
-                        notesLoading ||
-                        !noteForm.content.trim() ||
-                        !noteForm.category.trim()
-                          ? "not-allowed"
-                          : "pointer",
-                      opacity:
-                        notesLoading ||
-                        !noteForm.content.trim() ||
-                        !noteForm.category.trim()
-                          ? 0.6
-                          : 1,
-                    }}
-                  >
-                    {notesLoading ? "Saving..." : "Save Note"}
-                  </button>
-                </form>
-                {notesError && (
-                  <div
-                    className="error-banner"
-                    style={{
-                      marginTop: "16px",
-                      padding: "12px",
-                      backgroundColor: "rgba(186, 26, 26, 0.1)",
-                      border: "1px solid var(--error)",
-                      borderRadius: "var(--radius-sm)",
-                      color: "var(--error)",
-                      fontSize: "13px",
-                    }}
-                  >
-                    {notesError}
-                  </div>
-                )}
-              </div>
-
-              <div className="notes-history-section">
-                <h2 className="section-header">
-                  <Clock size={18} style={{ color: "var(--primary)" }} />
-                  Historical Notes
-                </h2>
-                {notesLoading && notes.length === 0 ? (
-                  <div
-                    style={{
-                      padding: "40px",
-                      textAlign: "center",
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    <Activity
-                      className="animate-spin"
-                      style={{ margin: "0 auto 16px", color: "var(--primary)" }}
-                      size={32}
-                    />
-                    <div>Loading notes...</div>
-                  </div>
-                ) : notes.length === 0 ? (
-                  <div
-                    style={{
-                      padding: "40px",
-                      textAlign: "center",
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    <StickyNote
-                      size={32}
-                      style={{ margin: "0 auto 16px", opacity: 0.5 }}
-                    />
-                    <div>No notes yet. Add your first note above.</div>
-                  </div>
-                ) : (
-                  <div className="notes-list">
-                    {notes.map((note) => (
-                      <div key={note.id} className="note-card">
-                        <div className="note-header">
-                          <div className="note-meta">
-                            <Badge
-                              text={note.owner}
-                              color="var(--primary)"
-                              bg="rgba(1, 54, 38, 0.05)"
-                            />
-                            <Badge
-                              text={note.category}
-                              color="var(--text-secondary)"
-                              bg="rgba(113, 121, 116, 0.08)"
-                            />
-                          </div>
-                          <div
-                            className="note-date mono-display"
-                            style={{
-                              fontSize: "11px",
-                              color: "var(--text-muted)",
-                            }}
-                          >
-                            {new Date(note.created_at).toLocaleString()}
-                          </div>
-                        </div>
-                        <div className="note-content">{note.content}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <NotesPanel
+            notes={notes}
+            noteForm={noteForm}
+            setNoteForm={setNoteForm}
+            notesLoading={notesLoading}
+            notesError={notesError}
+            onCreateNote={createNote}
+          />
         )}
       </main>
     </div>
