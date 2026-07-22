@@ -18,7 +18,8 @@ export function AdminApprovalPage() {
         credentials: "include",
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to fetch pending users");
+      if (!response.ok)
+        throw new Error(data.message || "Failed to fetch pending users");
       setPendingUsers(data.users || []);
     } catch (err) {
       setError(err.message);
@@ -37,7 +38,8 @@ export function AdminApprovalPage() {
         body: JSON.stringify({ email }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to approve user");
+      if (!response.ok)
+        throw new Error(data.message || "Failed to approve user");
       setPendingUsers(pendingUsers.filter((user) => user.email !== email));
     } catch (err) {
       setError(err.message);
@@ -62,22 +64,37 @@ export function AdminApprovalPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+    <div className="min-h-screen" style={{ backgroundColor: "#fcf9f8" }}>
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate("/dashboard")}
-              className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              style={{ borderRadius: "4px" }}
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-5 h-5" style={{ color: "#1c1b1b" }} />
             </button>
-            <h1 className="text-2xl font-bold text-gray-800">User Approvals</h1>
+            <h1
+              className="text-2xl font-bold"
+              style={{ color: "#013626", fontFamily: "Inter" }}
+            >
+              User Approvals
+            </h1>
           </div>
           <button
             onClick={fetchPendingUsers}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+            style={{
+              backgroundColor: "#f0eded",
+              border: "1px solid #e5e2e1",
+              color: "#1c1b1b",
+              fontFamily: "Inter",
+              fontSize: "14px",
+              fontWeight: "500",
+              borderRadius: "4px",
+            }}
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -85,22 +102,64 @@ export function AdminApprovalPage() {
         </div>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
+          <div
+            className="mb-4 p-4 rounded-lg flex items-center gap-2"
+            style={{
+              backgroundColor: "#ffdad6",
+              border: "1px solid #ba1a1a",
+              color: "#93000a",
+              fontFamily: "Inter",
+              borderRadius: "4px",
+            }}
+          >
             <X className="w-5 h-5" />
             <span>{error}</span>
           </div>
         )}
 
         {loading ? (
-          <div className="text-center py-12 text-gray-500">Loading pending users...</div>
+          <div
+            className="text-center py-12"
+            style={{ color: "#414944", fontFamily: "Inter" }}
+          >
+            Loading pending users...
+          </div>
         ) : pendingUsers.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-            <User className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-            <p className="text-gray-500">No pending user approvals</p>
+          <div
+            className="text-center py-12 rounded-lg"
+            style={{
+              backgroundColor: "#ffffff",
+              border: "1px solid #e0e0e0",
+              borderRadius: "4px",
+            }}
+          >
+            <User
+              className="w-12 h-12 mx-auto mb-4"
+              style={{ color: "#717974" }}
+            />
+            <p style={{ color: "#414944", fontFamily: "Inter" }}>
+              No pending user approvals
+            </p>
           </div>
         ) : (
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 border-b border-gray-200 font-medium text-gray-700 text-sm">
+          <div
+            className="rounded-lg overflow-hidden"
+            style={{
+              backgroundColor: "#ffffff",
+              border: "1px solid #e0e0e0",
+              borderRadius: "4px",
+            }}
+          >
+            <div
+              className="grid grid-cols-12 gap-4 p-4 font-medium"
+              style={{
+                backgroundColor: "#f6f3f2",
+                borderBottom: "1px solid #e0e0e0",
+                color: "#1c1b1b",
+                fontFamily: "Inter",
+                fontSize: "14px",
+              }}
+            >
               <div className="col-span-5">Email</div>
               <div className="col-span-4">Registered</div>
               <div className="col-span-3 text-right">Actions</div>
@@ -108,21 +167,61 @@ export function AdminApprovalPage() {
             {pendingUsers.map((user) => (
               <div
                 key={user.id}
-                className="grid grid-cols-12 gap-4 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors items-center"
+                className="grid grid-cols-12 gap-4 p-4 transition-colors items-center"
+                style={{
+                  borderBottom: "1px solid #f0eded",
+                  fontFamily: "Inter",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#f6f3f2")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "transparent")
+                }
               >
                 <div className="col-span-5 flex items-center gap-2">
-                  <User className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-800">{user.email}</span>
+                  <User className="w-4 h-4" style={{ color: "#717974" }} />
+                  <span
+                    style={{
+                      color: "#1c1b1b",
+                      fontFamily: "JetBrains Mono",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {user.email}
+                  </span>
                 </div>
-                <div className="col-span-4 flex items-center gap-2 text-gray-600 text-sm">
-                  <Clock className="w-4 h-4 text-gray-400" />
+                <div
+                  className="col-span-4 flex items-center gap-2"
+                  style={{ color: "#414944", fontSize: "14px" }}
+                >
+                  <Clock className="w-4 h-4" style={{ color: "#717974" }} />
                   {formatDate(user.created_at)}
                 </div>
                 <div className="col-span-3 text-right">
                   <button
                     onClick={() => approveUser(user.email)}
                     disabled={approving === user.email}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    style={{
+                      backgroundColor: "#1e4d3b",
+                      border: "1px solid #1e4d3b",
+                      color: "#ffffff",
+                      fontFamily: "Inter",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      borderRadius: "4px",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (approving !== user.email) {
+                        e.currentTarget.style.backgroundColor = "#013626";
+                        e.currentTarget.style.borderColor = "#013626";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "#1e4d3b";
+                      e.currentTarget.style.borderColor = "#1e4d3b";
+                    }}
                   >
                     {approving === user.email ? (
                       <>
