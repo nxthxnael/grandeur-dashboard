@@ -1,6 +1,12 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 import * as bcrypt from "bcrypt";
+import * as crypto from "crypto";
 import { Pool } from "pg";
 import { Inject } from "@nestjs/common";
 import { DATABASE_POOL } from "../database/tokens";
@@ -16,7 +22,13 @@ export class AuthService {
   constructor(
     @Inject(DATABASE_POOL) private readonly pool: Pool,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    // Fail fast if JWT_SECRET is not configured
+    if (!this.configService.get<string>("JWT_SECRET")) {
+      throw new Error("JWT_SECRET environment variable is not set");
+    }
+  }
 
   async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, 10);
@@ -29,27 +41,53 @@ export class AuthService {
   async generateTokens(userId: string, email: string, role: UserRole) {
     const payload = { sub: userId, email, role };
 
+    const jwtSecret = this.configService.get<string>("JWT_SECRET");
+    const jwtRefreshSecret =
+      this.configService.get<string>("JWT_REFRESH_SECRET") || jwtSecret;
+
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: "15m",
+      secret: jwtSecret,
     });
 
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: "7d",
-      secret: process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
+      secret: jwtRefreshSecret,
     });
 
     return { accessToken, refreshToken };
   }
 
+  // Use deterministic SHA-256 hash for token lookup (not bcrypt due to salt)
   async hashRefreshToken(token: string): Promise<string> {
-    return bcrypt.hash(token, 10);
+    const secret =
+      this.configService.get<string>("JWT_REFRESH_SECRET") ||
+      this.configService.get<string>("JWT_SECRET");
+    return crypto.createHmac("sha256", secret).update(token).digest("hex");
   }
 
   async verifyRefreshToken(token: string): Promise<any> {
+    const jwtRefreshSecret =
+      this.configService.get<string>("JWT_REFRESH_SECRET") ||
+      this.configService.get<string>("JWT_SECRET");
+
     try {
-      return this.jwtService.verify(token, {
-        secret: process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
+      const payload = this.jwtService.verify(token, {
+        secret: jwtRefreshSecret,
       });
+
+      // Check if token exists in database (not revoked)
+      const tokenHash = await this.hashRefreshToken(token);
+      const result = await this.pool.query(
+        "SELECT user_id, expires_at FROM refresh_tokens WHERE token_hash = $1 AND expires_at > NOW()",
+        [tokenHash],
+      );
+
+      if (result.rows.length === 0) {
+        throw new UnauthorizedException("Refresh token not found or expired");
+      }
+
+      return payload;
     } catch (error) {
       throw new UnauthorizedException("Invalid refresh token");
     }
@@ -65,7 +103,7 @@ export class AuthService {
     );
 
     if (existingUser.rows.length > 0) {
-      throw new UnauthorizedException("User already exists");
+      throw new ConflictException("User already exists");
     }
 
     // Hash password
@@ -185,9 +223,8 @@ export class AuthService {
   }
 
   async rotateRefreshToken(oldToken: string, userId: string) {
-    // Delete old refresh token
-    const oldTokenHash = await this.hashRefreshToken(oldToken);
-    await this.deleteRefreshToken(oldTokenHash);
+    // Delete old refresh token by user ID (safer than hash matching)
+    await this.deleteAllRefreshTokens(userId);
 
     // Get user
     const user = await this.getUserById(userId);
