@@ -103,6 +103,17 @@ export class AuthController {
     };
   }
 
+  @Get("pending-users")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN)
+  @HttpCode(HttpStatus.OK)
+  async getPendingUsers() {
+    const users = await this.authService.getPendingUsers();
+    return {
+      users,
+    };
+  }
+
   @Post("refresh")
   @HttpCode(HttpStatus.OK)
   async refresh(
