@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Milestone,
@@ -19,10 +20,15 @@ import {
   Info,
   ShieldAlert,
   StickyNote,
+  LogOut,
 } from "lucide-react";
 import "./App.css";
 import { useNotes } from "./hooks/useNotes";
 import { NotesPanel } from "./components/NotesPanel";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { LoginPage } from "./pages/LoginPage";
+import { SignupPage } from "./pages/SignupPage";
+import { useAuth } from "./context/AuthContext";
 
 const PHASES = [
   {
@@ -1002,6 +1008,7 @@ function hexToRgb(hex) {
 }
 
 export default function App() {
+  const { user, loading, logout } = useAuth();
   const [taskStatus, setTaskStatus] = useState({});
   const [taskNotes, setTaskNotes] = useState({});
   const [riskStatus, setRiskStatus] = useState({});
@@ -1114,7 +1121,7 @@ export default function App() {
         return true;
       });
 
-  if (!loaded) {
+  if (loading) {
     return (
       <div
         style={{
@@ -1129,10 +1136,131 @@ export default function App() {
           style={{ margin: "0 auto 16px", color: "var(--primary)" }}
           size={32}
         />
-        <div>Loading Technical Board...</div>
+        <div>Loading...</div>
       </div>
     );
   }
+
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <DashboardContent
+              user={user}
+              logout={logout}
+              taskStatus={taskStatus}
+              setTaskStatus={setStatus}
+              taskNotes={taskNotes}
+              setNote={setNote}
+              riskStatus={riskStatus}
+              setRisk={setRisk}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              activePhase={activePhase}
+              setActivePhase={setActivePhase}
+              expandedTask={expandedTask}
+              setExpandedTask={setExpandedTask}
+              editingNote={editingNote}
+              setEditingNote={setEditingNote}
+              noteInput={noteInput}
+              setNoteInput={setNoteInput}
+              filter={filter}
+              setFilter={setFilter}
+              notes={notes}
+              noteForm={noteForm}
+              setNoteForm={setNoteForm}
+              notesLoading={notesLoading}
+              notesError={notesError}
+              createNote={createNote}
+            />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
+}
+
+function DashboardContent({
+  user,
+  logout,
+  taskStatus,
+  setTaskStatus,
+  taskNotes,
+  setNote,
+  riskStatus,
+  setRisk,
+  activeTab,
+  setActiveTab,
+  activePhase,
+  setActivePhase,
+  expandedTask,
+  setExpandedTask,
+  editingNote,
+  setEditingNote,
+  noteInput,
+  setNoteInput,
+  filter,
+  setFilter,
+  notes,
+  noteForm,
+  setNoteForm,
+  notesLoading,
+  notesError,
+  createNote,
+}) {
+  const getPhaseStats = (phase) => {
+    const tasks = phase.tasks;
+    const done = tasks.filter((t) => taskStatus[t.id] === "Done").length;
+    const inProg = tasks.filter(
+      (t) => taskStatus[t.id] === "In Progress",
+    ).length;
+    const blocked = tasks.filter((t) => taskStatus[t.id] === "Blocked").length;
+    const pct = tasks.length > 0 ? Math.round((done / tasks.length) * 100) : 0;
+    return { done, inProg, blocked, total: tasks.length, pct };
+  };
+
+  const allTasks = PHASES.flatMap((p) =>
+    p.tasks.map((t) => ({ ...t, phase: p })),
+  );
+  const totalDone = allTasks.filter((t) => taskStatus[t.id] === "Done").length;
+  const totalInProg = allTasks.filter(
+    (t) => taskStatus[t.id] === "In Progress",
+  ).length;
+  const totalBlocked = allTasks.filter(
+    (t) => taskStatus[t.id] === "Blocked",
+  ).length;
+  const overallPct =
+    allTasks.length > 0 ? Math.round((totalDone / allTasks.length) * 100) : 0;
+
+  const TABS = [
+    { id: "overview", label: "Overview", icon: LayoutDashboard },
+    { id: "phases", label: "Phases", icon: Milestone },
+    { id: "tasks", label: "Tasks", icon: CheckSquare },
+    { id: "documents", label: "Documents", icon: FileText },
+    { id: "risks", label: "Risks", icon: AlertTriangle },
+    { id: "decisions", label: "Decisions", icon: Gavel },
+    { id: "notes", label: "Notes", icon: StickyNote },
+  ];
+
+  const filteredTasks = activePhase
+    ? PHASES.find((p) => p.id === activePhase)?.tasks.map((t) => ({
+        ...t,
+        phase: PHASES.find((p) => p.id === activePhase),
+      })) || []
+    : allTasks.filter((t) => {
+        if (filter === "all") return true;
+        if (filter === "critical") return t.critical;
+        if (filter === "blocked") return taskStatus[t.id] === "Blocked";
+        if (filter === "inprogress") return taskStatus[t.id] === "In Progress";
+        if (filter === "notstarted")
+          return !taskStatus[t.id] || taskStatus[t.id] === "Not Started";
+        if (filter === "done") return taskStatus[t.id] === "Done";
+        return true;
+      });
 
   return (
     <div className="dashboard">
@@ -1193,6 +1321,26 @@ export default function App() {
               </div>
               <div className="stat-label">Blocked</div>
             </div>
+            <button
+              onClick={logout}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 16px",
+                backgroundColor: "transparent",
+                border: "1px solid var(--border-color)",
+                borderRadius: "4px",
+                color: "var(--text-secondary)",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 500,
+              }}
+            >
+              <LogOut size={16} />
+              Logout
+            </button>
           </div>
         </div>
 
