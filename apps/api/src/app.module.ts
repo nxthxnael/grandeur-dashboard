@@ -8,8 +8,8 @@ import { DomainController } from "./domains/domain.controller";
 import { PointsController } from "./points/points.controller";
 import * as path from "path";
 
-// Get the monorepo root directory (3 levels up from apps/api/src)
-const rootDir = path.resolve(__dirname, "../../../");
+// Get the monorepo root directory (4 levels up from apps/api/src)
+const rootDir = path.resolve(__dirname, "../../../../");
 
 @Module({
   imports: [
