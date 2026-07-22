@@ -6,7 +6,10 @@
     "build": "nest build",
     "start": "nest start",
     "dev": "nest start --watch",
-    "test": "echo 'Running NestJS tests...'"
+    "test": "echo 'Running NestJS tests...'",
+    "migrate": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "seed:super-admin": "ts-node scripts/seed-super-admin.ts"
   },
   "dependencies": {
     "@grandeur/shared": "1.0.0",
@@ -15,7 +18,9 @@
     "@nestjs/config": "4.0.4",
     "@nestjs/core": "11.1.28",
     "@nestjs/platform-express": "11.1.28",
+    "bcrypt": "^6.0.0",
     "cache-manager": "6.1.0",
+    "node-pg-migrate": "^9.0.0",
     "pg": "8.11.3",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.1",
@@ -25,8 +30,11 @@
     "@nestjs/cli": "11.0.0",
     "@nestjs/schematics": "11.0.0",
     "@nestjs/testing": "11.0.10",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "20.11.16",
     "@types/pg": "8.11.0",
+    "dotenv": "^17.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "5.3.3"
   }
 }
