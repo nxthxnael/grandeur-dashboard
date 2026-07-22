@@ -3,5 +3,7 @@ dist/
 .turbo/
 .next/
 *.log
+.env
+*.env
+apps/*/.env
 .env*
-!.env.example
