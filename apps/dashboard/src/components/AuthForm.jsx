@@ -114,12 +114,21 @@ export function AuthForm({ type, onSubmit, error, loading }) {
               </Link>
             </p>
           ) : (
-            <p>
-              Already have an account?{" "}
-              <Link to="/login" className="auth-link">
-                Sign in
-              </Link>
-            </p>
+            <>
+              <p>
+                Already have an account?{" "}
+                <Link to="/login" className="auth-link">
+                  Sign in
+                </Link>
+              </p>
+              <p className="auth-contact">
+                Contact admin at{" "}
+                <a href="mailto:nxthxnael@gmail.com" className="auth-link">
+                  nxthxnael@gmail.com
+                </a>{" "}
+                for approval
+              </p>
+            </>
           )}
         </div>
       </div>

@@ -21,6 +21,7 @@ import {
   ShieldAlert,
   StickyNote,
   LogOut,
+  Shield,
 } from "lucide-react";
 import "./App.css";
 import { useNotes } from "./hooks/useNotes";
@@ -28,6 +29,7 @@ import { NotesPanel } from "./components/NotesPanel";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { LoginPage } from "./pages/LoginPage";
 import { SignupPage } from "./pages/SignupPage";
+import { AdminApprovalPage } from "./pages/AdminApprovalPage";
 import { useAuth } from "./context/AuthContext";
 
 export const PHASES = [
@@ -1076,6 +1078,14 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route
+        path="/admin/approvals"
+        element={
+          <ProtectedRoute>
+            <AdminApprovalPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/*"
         element={
           <ProtectedRoute>
@@ -1296,6 +1306,28 @@ function DashboardContent({
               <LogOut size={16} />
               Logout
             </button>
+            {user.role === "SUPER_ADMIN" && (
+              <button
+                onClick={() => (window.location.href = "/admin/approvals")}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 16px",
+                  backgroundColor: "#dc2626",
+                  border: "1px solid #dc2626",
+                  borderRadius: "4px",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 500,
+                }}
+              >
+                <Shield size={16} />
+                Admin
+              </button>
+            )}
           </div>
         </div>
 
