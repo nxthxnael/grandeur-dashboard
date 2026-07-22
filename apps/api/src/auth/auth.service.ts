@@ -2,6 +2,8 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
+  NotFoundException,
+  Logger,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
@@ -19,6 +21,8 @@ import {
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     @Inject(DATABASE_POOL) private readonly pool: Pool,
     private readonly jwtService: JwtService,
@@ -252,5 +256,26 @@ export class AuthService {
       user,
       ...tokens,
     };
+  }
+
+  async logout(refreshToken?: string): Promise<void> {
+    if (!refreshToken) return;
+
+    try {
+      const payload = await this.verifyRefreshToken(refreshToken);
+      await this.deleteAllRefreshTokens(payload.sub);
+    } catch (error) {
+      // Best-effort logout: do not fail the response, but log for observability
+      this.logger.warn(
+        `Logout error for refresh token; proceeding with best-effort logout.`,
+      );
+      this.logger.debug(
+        `Logout stack trace: ${
+          error instanceof Error
+            ? (error.stack ?? error.message)
+            : String(error)
+        }`,
+      );
+    }
   }
 }
