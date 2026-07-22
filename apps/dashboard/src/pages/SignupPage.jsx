@@ -1,32 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthForm } from "../components/AuthForm";
-import { API_BASE_URL } from "../config/apiClient";
+import { useAuth } from "../context/AuthContext";
 
 export function SignupPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleSubmit = async ({ email, password }) => {
     setError("");
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
+      const data = await register(email, password);
 
       if (!data.approved) {
         setError("Registration successful. Please wait for admin approval.");
