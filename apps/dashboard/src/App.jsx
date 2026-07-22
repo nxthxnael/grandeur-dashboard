@@ -30,7 +30,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { SignupPage } from "./pages/SignupPage";
 import { useAuth } from "./context/AuthContext";
 
-const PHASES = [
+export const PHASES = [
   {
     id: "p0",
     code: "Phase 0",
@@ -1008,7 +1008,7 @@ function hexToRgb(hex) {
 }
 
 export default function App() {
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [taskStatus, setTaskStatus] = useState({});
   const [taskNotes, setTaskNotes] = useState({});
   const [riskStatus, setRiskStatus] = useState({});
@@ -1071,76 +1071,6 @@ export default function App() {
     save(taskStatus, taskNotes, next);
   };
 
-  const getPhaseStats = (phase) => {
-    const tasks = phase.tasks;
-    const done = tasks.filter((t) => taskStatus[t.id] === "Done").length;
-    const inProg = tasks.filter(
-      (t) => taskStatus[t.id] === "In Progress",
-    ).length;
-    const blocked = tasks.filter((t) => taskStatus[t.id] === "Blocked").length;
-    const pct = tasks.length > 0 ? Math.round((done / tasks.length) * 100) : 0;
-    return { done, inProg, blocked, total: tasks.length, pct };
-  };
-
-  const allTasks = PHASES.flatMap((p) =>
-    p.tasks.map((t) => ({ ...t, phase: p })),
-  );
-  const totalDone = allTasks.filter((t) => taskStatus[t.id] === "Done").length;
-  const totalInProg = allTasks.filter(
-    (t) => taskStatus[t.id] === "In Progress",
-  ).length;
-  const totalBlocked = allTasks.filter(
-    (t) => taskStatus[t.id] === "Blocked",
-  ).length;
-  const overallPct =
-    allTasks.length > 0 ? Math.round((totalDone / allTasks.length) * 100) : 0;
-
-  const TABS = [
-    { id: "overview", label: "Overview", icon: LayoutDashboard },
-    { id: "phases", label: "Phases", icon: Milestone },
-    { id: "tasks", label: "Tasks", icon: CheckSquare },
-    { id: "documents", label: "Documents", icon: FileText },
-    { id: "risks", label: "Risks", icon: AlertTriangle },
-    { id: "decisions", label: "Decisions", icon: Gavel },
-    { id: "notes", label: "Notes", icon: StickyNote },
-  ];
-
-  const filteredTasks = activePhase
-    ? PHASES.find((p) => p.id === activePhase)?.tasks.map((t) => ({
-        ...t,
-        phase: PHASES.find((p) => p.id === activePhase),
-      })) || []
-    : allTasks.filter((t) => {
-        if (filter === "all") return true;
-        if (filter === "critical") return t.critical;
-        if (filter === "blocked") return taskStatus[t.id] === "Blocked";
-        if (filter === "inprogress") return taskStatus[t.id] === "In Progress";
-        if (filter === "notstarted")
-          return !taskStatus[t.id] || taskStatus[t.id] === "Not Started";
-        if (filter === "done") return taskStatus[t.id] === "Done";
-        return true;
-      });
-
-  if (loading) {
-    return (
-      <div
-        style={{
-          padding: 80,
-          color: "var(--text-secondary)",
-          textAlign: "center",
-          fontFamily: "var(--font-sans)",
-        }}
-      >
-        <Activity
-          className="animate-spin"
-          style={{ margin: "0 auto 16px", color: "var(--primary)" }}
-          size={32}
-        />
-        <div>Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
@@ -1153,7 +1083,7 @@ export default function App() {
               user={user}
               logout={logout}
               taskStatus={taskStatus}
-              setTaskStatus={setStatus}
+              setStatus={setStatus}
               taskNotes={taskNotes}
               setNote={setNote}
               riskStatus={riskStatus}
@@ -1170,6 +1100,7 @@ export default function App() {
               setNoteInput={setNoteInput}
               filter={filter}
               setFilter={setFilter}
+              loaded={loaded}
               notes={notes}
               noteForm={noteForm}
               setNoteForm={setNoteForm}
@@ -1188,7 +1119,7 @@ function DashboardContent({
   user,
   logout,
   taskStatus,
-  setTaskStatus,
+  setStatus,
   taskNotes,
   setNote,
   riskStatus,
@@ -1205,6 +1136,7 @@ function DashboardContent({
   setNoteInput,
   filter,
   setFilter,
+  loaded,
   notes,
   noteForm,
   setNoteForm,
@@ -1261,6 +1193,26 @@ function DashboardContent({
         if (filter === "done") return taskStatus[t.id] === "Done";
         return true;
       });
+
+  if (!loaded) {
+    return (
+      <div
+        style={{
+          padding: 80,
+          color: "var(--text-secondary)",
+          textAlign: "center",
+          fontFamily: "var(--font-sans)",
+        }}
+      >
+        <Activity
+          className="animate-spin"
+          style={{ margin: "0 auto 16px", color: "var(--primary)" }}
+          size={32}
+        />
+        <div>Loading Technical Board...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard">
@@ -1322,7 +1274,10 @@ function DashboardContent({
               <div className="stat-label">Blocked</div>
             </div>
             <button
-              onClick={logout}
+              onClick={() => {
+                logout();
+                window.location.href = "/login";
+              }}
               style={{
                 display: "flex",
                 alignItems: "center",
