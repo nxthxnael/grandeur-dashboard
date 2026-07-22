@@ -15,15 +15,31 @@ import { DATABASE_POOL } from "./tokens";
           throw new Error("DATABASE_URL environment variable is not set");
         }
 
-        // Set NODE_TLS_REJECT_UNAUTHORIZED for pg library before pool creation
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        // Parse connection string to handle URL-encoded password
+        const url = new URL(connectionString);
+        const password = decodeURIComponent(url.password);
 
-        // Use connection string directly to respect SSL parameters
+        // SSL configuration - defaults to secure settings
+        const sslEnabled = configService.get<boolean>(
+          "DATABASE_SSL_ENABLED",
+          true,
+        );
+        const rejectUnauthorized = configService.get<boolean>(
+          "DATABASE_SSL_REJECT_UNAUTHORIZED",
+          true,
+        );
+
         const pool = new Pool({
-          connectionString: connectionString,
-          ssl: {
-            rejectUnauthorized: false,
-          },
+          host: url.hostname,
+          port: parseInt(url.port) || 5432,
+          database: url.pathname.slice(1), // Remove leading slash
+          user: url.username,
+          password: password,
+          ssl: sslEnabled
+            ? {
+                rejectUnauthorized,
+              }
+            : false,
         });
 
         return pool;

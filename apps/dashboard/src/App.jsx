@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Milestone,
@@ -1154,6 +1154,8 @@ function DashboardContent({
   notesError,
   createNote,
 }) {
+  const navigate = useNavigate();
+
   const getPhaseStats = (phase) => {
     const tasks = phase.tasks;
     const done = tasks.filter((t) => taskStatus[t.id] === "Done").length;
@@ -1308,7 +1310,7 @@ function DashboardContent({
             </button>
             {user.role === "SUPER_ADMIN" && (
               <button
-                onClick={() => (window.location.href = "/admin/approvals")}
+                onClick={() => navigate("/admin/approvals")}
                 style={{
                   display: "flex",
                   alignItems: "center",

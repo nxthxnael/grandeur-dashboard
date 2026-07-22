@@ -40,7 +40,7 @@ export function AdminApprovalPage() {
       const data = await response.json();
       if (!response.ok)
         throw new Error(data.message || "Failed to approve user");
-      setPendingUsers(pendingUsers.filter((user) => user.email !== email));
+      setPendingUsers((prev) => prev.filter((user) => user.email !== email));
     } catch (err) {
       setError(err.message);
     } finally {
