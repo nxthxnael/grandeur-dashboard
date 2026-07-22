@@ -1079,14 +1079,14 @@ export default function App() {
       setNotes(data);
 
       // Fallback to local storage
-      await store.set("dlrs_notes", JSON.stringify(data));
+      store.set("dlrs_notes", JSON.stringify(data));
     } catch (error) {
       console.error("Error fetching notes:", error);
       setNotesError("Failed to load notes from server. Using local fallback.");
 
       // Try local storage fallback
       try {
-        const localNotes = await store.get("dlrs_notes");
+        const localNotes = store.get("dlrs_notes");
         if (localNotes) {
           setNotes(JSON.parse(localNotes.value));
         }
@@ -1100,7 +1100,6 @@ export default function App() {
 
   const createNote = async (e) => {
     e.preventDefault();
-    if (!noteForm.content.trim() || !noteForm.category.trim()) return;
 
     setNotesLoading(true);
     setNotesError(null);
@@ -1113,11 +1112,12 @@ export default function App() {
       if (!response.ok) throw new Error("Failed to create note");
       const newNote = await response.json();
 
-      setNotes((prev) => [newNote, ...prev]);
+      setNotes((prev) => {
+        const next = [newNote, ...prev];
+        store.set("dlrs_notes", JSON.stringify(next));
+        return next;
+      });
       setNoteForm({ content: "", owner: "Dev", category: "" });
-
-      // Update local storage
-      await store.set("dlrs_notes", JSON.stringify([newNote, ...notes]));
     } catch (error) {
       console.error("Error creating note:", error);
       setNotesError("Failed to save note to server. Saved locally only.");
@@ -1128,9 +1128,12 @@ export default function App() {
         ...noteForm,
         created_at: new Date().toISOString(),
       };
-      setNotes((prev) => [localNote, ...prev]);
+      setNotes((prev) => {
+        const next = [localNote, ...prev];
+        store.set("dlrs_notes", JSON.stringify(next));
+        return next;
+      });
       setNoteForm({ content: "", owner: "Dev", category: "" });
-      await store.set("dlrs_notes", JSON.stringify([localNote, ...notes]));
     } finally {
       setNotesLoading(false);
     }
@@ -1825,16 +1828,16 @@ export default function App() {
               const rs = riskStatus[risk.id] || risk.defaultStatus;
               const probColor =
                 {
-                  High: "var(--error)",
-                  Medium: "var(--warning)",
-                  Low: "var(--success)",
-                }[risk.prob] || "var(--text-muted)";
+                  High: "#ef4444",
+                  Medium: "#f59e0b",
+                  Low: "#22c55e",
+                }[risk.prob] || "#6b7280";
               const impColor =
                 {
-                  High: "var(--error)",
-                  Medium: "var(--warning)",
-                  Low: "var(--success)",
-                }[risk.impact] || "var(--text-muted)";
+                  High: "#ef4444",
+                  Medium: "#f59e0b",
+                  Low: "#22c55e",
+                }[risk.impact] || "#6b7280";
 
               return (
                 <div key={risk.id} className="risk-card">
@@ -2020,7 +2023,11 @@ export default function App() {
                   <button
                     type="submit"
                     className="btn-primary"
-                    disabled={notesLoading}
+                    disabled={
+                      notesLoading ||
+                      !noteForm.content.trim() ||
+                      !noteForm.category.trim()
+                    }
                     style={{
                       marginTop: "16px",
                       padding: "10px 20px",
@@ -2030,8 +2037,18 @@ export default function App() {
                       border: "none",
                       backgroundColor: "var(--primary)",
                       color: "white",
-                      cursor: notesLoading ? "not-allowed" : "pointer",
-                      opacity: notesLoading ? 0.6 : 1,
+                      cursor:
+                        notesLoading ||
+                        !noteForm.content.trim() ||
+                        !noteForm.category.trim()
+                          ? "not-allowed"
+                          : "pointer",
+                      opacity:
+                        notesLoading ||
+                        !noteForm.content.trim() ||
+                        !noteForm.category.trim()
+                          ? 0.6
+                          : 1,
                     }}
                   >
                     {notesLoading ? "Saving..." : "Save Note"}
