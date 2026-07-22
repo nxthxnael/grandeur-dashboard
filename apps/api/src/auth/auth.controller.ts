@@ -8,10 +8,11 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  SetMetadata,
   NotImplementedException,
+  UnauthorizedException,
+  NotFoundException,
 } from "@nestjs/common";
-import { Response, Request } from "express";
+import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { RolesGuard } from "./roles.guard";
@@ -19,16 +20,9 @@ import { RegisterDto } from "./dto/register.dto";
 import { LoginDto } from "./dto/login.dto";
 import { ApproveUserDto } from "./dto/approve-user.dto";
 import { UserRole } from "./entities/user.entity";
-
-export const ROLES_KEY = "roles";
-
-interface RequestWithUser extends Request {
-  user: {
-    userId: string;
-    email: string;
-    role: UserRole;
-  };
-}
+import { RequestWithUser } from "./auth.types";
+import { Roles } from "./roles.decorator";
+import { setAuthCookies, clearAuthCookies } from "./auth.cookies";
 
 @Controller("v1/auth")
 export class AuthController {
@@ -61,19 +55,9 @@ export class AuthController {
   ) {
     const result = await this.authService.login(loginDto);
 
-    // Set HttpOnly cookies
-    response.cookie("accessToken", result.accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 15 * 60 * 1000, // 15 minutes
-    });
-
-    response.cookie("refreshToken", result.refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    setAuthCookies(response, {
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
     });
 
     return {
@@ -87,20 +71,9 @@ export class AuthController {
     @Req() request: RequestWithUser,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const refreshToken = request.cookies.refreshToken;
+    await this.authService.logout(request.cookies.refreshToken);
 
-    if (refreshToken) {
-      try {
-        const payload = await this.authService.verifyRefreshToken(refreshToken);
-        await this.authService.deleteAllRefreshTokens(payload.sub);
-      } catch (error) {
-        // Ignore errors during logout
-      }
-    }
-
-    // Clear cookies
-    response.clearCookie("accessToken");
-    response.clearCookie("refreshToken");
+    clearAuthCookies(response);
 
     return { message: "Logged out successfully" };
   }
@@ -112,7 +85,7 @@ export class AuthController {
     const userDetails = await this.authService.getUserById(user.userId);
 
     if (!userDetails) {
-      throw new NotImplementedException("User not found");
+      throw new NotFoundException("User not found");
     }
 
     return userDetails;
@@ -120,7 +93,7 @@ export class AuthController {
 
   @Post("approve-user")
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @SetMetadata(ROLES_KEY, [UserRole.SUPER_ADMIN])
+  @Roles(UserRole.SUPER_ADMIN)
   @HttpCode(HttpStatus.OK)
   async approveUser(@Body() approveUserDto: ApproveUserDto) {
     const user = await this.authService.approveUser(approveUserDto.email);
@@ -139,7 +112,7 @@ export class AuthController {
     const refreshToken = request.cookies.refreshToken;
 
     if (!refreshToken) {
-      throw new NotImplementedException("No refresh token provided");
+      throw new UnauthorizedException("No refresh token provided");
     }
 
     const payload = await this.authService.verifyRefreshToken(refreshToken);
@@ -148,19 +121,9 @@ export class AuthController {
       payload.sub,
     );
 
-    // Set new HttpOnly cookies
-    response.cookie("accessToken", result.accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 15 * 60 * 1000, // 15 minutes
-    });
-
-    response.cookie("refreshToken", result.refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    setAuthCookies(response, {
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
     });
 
     return {
