@@ -214,6 +214,14 @@ export class AuthService {
     return result.rows[0];
   }
 
+  async getPendingUsers(): Promise<User[]> {
+    const result = await this.pool.query(
+      "SELECT id, email, role, approved_at, created_at, updated_at FROM users WHERE approved_at IS NULL ORDER BY created_at DESC",
+    );
+
+    return result.rows;
+  }
+
   async deleteRefreshToken(tokenHash: string): Promise<void> {
     await this.pool.query("DELETE FROM refresh_tokens WHERE token_hash = $1", [
       tokenHash,

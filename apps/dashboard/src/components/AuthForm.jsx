@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Lock, AlertCircle } from "lucide-react";
 
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+
 export function AuthForm({ type, onSubmit, error, loading }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -114,12 +116,23 @@ export function AuthForm({ type, onSubmit, error, loading }) {
               </Link>
             </p>
           ) : (
-            <p>
-              Already have an account?{" "}
-              <Link to="/login" className="auth-link">
-                Sign in
-              </Link>
-            </p>
+            <>
+              <p>
+                Already have an account?{" "}
+                <Link to="/login" className="auth-link">
+                  Sign in
+                </Link>
+              </p>
+              {ADMIN_EMAIL && (
+                <p className="auth-contact">
+                  Contact admin at{" "}
+                  <a href={`mailto:${ADMIN_EMAIL}`} className="auth-link">
+                    {ADMIN_EMAIL}
+                  </a>{" "}
+                  for approval
+                </p>
+              )}
+            </>
           )}
         </div>
       </div>

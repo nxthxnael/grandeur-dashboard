@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 
 // Load environment variables
 const rootDir = process.cwd();
-dotenv.config({ path: `${rootDir}/apps/api/.env` });
+dotenv.config({ path: `${rootDir}/.env` });
 
 async function seedSuperAdmin() {
   const connectionString = process.env.DATABASE_URL;

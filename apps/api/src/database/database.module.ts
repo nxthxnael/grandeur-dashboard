@@ -41,6 +41,7 @@ import { DATABASE_POOL } from "./tokens";
               }
             : false,
         });
+
         return pool;
       },
       inject: [ConfigService],
