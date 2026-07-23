@@ -9,17 +9,22 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const logger = new Logger("Bootstrap");
 
+  const allowedOrigins = [
+    configService.get<string>("DASHBOARD_URL"),
+    "http://localhost:5173",
+  ].filter(Boolean) as string[];
+
   // Enable cookie parser
   app.use(cookieParser());
 
   // Enable CORS for dashboard
   app.enableCors({
-    origin: (origin: string | undefined) => {
-      const allowedOrigins = [
-        configService.get<string>("DASHBOARD_URL"),
-        "http://localhost:5173",
-      ].filter(Boolean);
-      return !origin || allowedOrigins.includes(origin);
+    origin: (
+      origin: string | undefined,
+      callback: (err: Error | null, allow: boolean) => void,
+    ) => {
+      const isAllowed = !origin || allowedOrigins.includes(origin);
+      callback(null, isAllowed);
     },
     credentials: true,
   });
