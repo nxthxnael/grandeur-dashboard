@@ -24,7 +24,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = configService.get<number>("PORT") || 3000;
+  const port =
+    configService.get<number>("PORT") ||
+    parseInt(process.env.PORT || "3000", 10);
   await app.listen(port);
 
   logger.log(`API is running on http://localhost:${port}`);
