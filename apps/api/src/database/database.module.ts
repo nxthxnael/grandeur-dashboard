@@ -20,14 +20,11 @@ import { DATABASE_POOL } from "./tokens";
         const password = decodeURIComponent(url.password);
 
         // SSL configuration - defaults to secure settings
-        const sslEnabled = configService.get<boolean>(
-          "DATABASE_SSL_ENABLED",
-          true,
-        );
-        const rejectUnauthorized = configService.get<boolean>(
-          "DATABASE_SSL_REJECT_UNAUTHORIZED",
-          true,
-        );
+        const sslEnabledRaw = configService.get<string>("DATABASE_SSL_ENABLED");
+        const sslEnabled = sslEnabledRaw !== undefined ? sslEnabledRaw === "true" : true; // Default to true if not set
+
+        const rejectUnauthorizedRaw = configService.get<string>("DATABASE_SSL_REJECT_UNAUTHORIZED");
+        const rejectUnauthorized = rejectUnauthorizedRaw !== undefined ? rejectUnauthorizedRaw === "true" : true; // Default to true if not set
 
         const pool = new Pool({
           host: url.hostname,
