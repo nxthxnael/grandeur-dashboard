@@ -6,6 +6,7 @@ import { AuthModule } from "./auth/auth.module";
 import { AuthController } from "./auth/auth.controller";
 import { DomainController } from "./domains/domain.controller";
 import { PointsController } from "./points/points.controller";
+import { HealthController } from "./health/health.controller";
 import * as path from "path";
 
 // Get the monorepo root directory (4 levels up from apps/api/src)
@@ -24,6 +25,11 @@ const rootDir = path.resolve(__dirname, "../../../../");
     NotesModule,
     AuthModule,
   ],
-  controllers: [AuthController, DomainController, PointsController],
+  controllers: [
+    HealthController,
+    AuthController,
+    DomainController,
+    PointsController,
+  ],
 })
 export class AppModule {}
