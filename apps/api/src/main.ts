@@ -14,8 +14,13 @@ async function bootstrap() {
 
   // Enable CORS for dashboard
   app.enableCors({
-    origin:
-      configService.get<string>("DASHBOARD_URL") || "http://localhost:5173",
+    origin: (origin: string | undefined) => {
+      const allowedOrigins = [
+        configService.get<string>("DASHBOARD_URL"),
+        "http://localhost:5173",
+      ].filter(Boolean);
+      return !origin || allowedOrigins.includes(origin);
+    },
     credentials: true,
   });
 
