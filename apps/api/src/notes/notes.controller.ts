@@ -5,11 +5,14 @@ import {
   Body,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from "@nestjs/common";
 import { NotesService } from "./notes.service";
 import { CreateNoteDto } from "./notes.dto";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("v1/notes")
+@UseGuards(JwtAuthGuard)
 export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 

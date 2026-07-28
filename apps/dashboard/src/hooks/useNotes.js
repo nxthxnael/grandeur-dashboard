@@ -25,7 +25,9 @@ export function useNotes(API_URL, store) {
     setNotesLoading(true);
     setNotesError(null);
     try {
-      const response = await fetch(`${API_URL}/v1/notes`);
+      const response = await fetch(`${API_URL}/v1/notes`, {
+        credentials: "include",
+      });
       if (!response.ok) throw new Error("Failed to fetch notes");
       const data = await response.json();
       setNotes(data);
@@ -57,6 +59,7 @@ export function useNotes(API_URL, store) {
         const response = await fetch(`${API_URL}/v1/notes`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify(noteForm),
         });
         if (!response.ok) throw new Error("Failed to create note");
