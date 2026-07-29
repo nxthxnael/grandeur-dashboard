@@ -94,9 +94,7 @@ export function NotesPanel({
             </button>
           </form>
           {notesError && (
-            <div className="error-banner">
-              {typeof notesError === "object" ? notesError.message : notesError}
-            </div>
+            <div className="error-banner">{notesError.message}</div>
           )}
         </div>
 

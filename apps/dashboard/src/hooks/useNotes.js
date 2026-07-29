@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 
 const handleAuthError = (response) => {
   if (response.status === 401 || response.status === 403) {
-    const authError = new Error("AUTHENTICATION_FAILED");
+    const authError = new Error(
+      "Your session has expired. Please sign in again.",
+    );
     authError.code = "AUTHENTICATION_FAILED";
     throw authError;
   }
