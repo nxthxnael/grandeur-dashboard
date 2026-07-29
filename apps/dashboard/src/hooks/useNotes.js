@@ -1,5 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 
+const handleAuthError = (response) => {
+  if (response.status === 401 || response.status === 403) {
+    const authError = new Error("AUTHENTICATION_FAILED");
+    authError.code = "AUTHENTICATION_FAILED";
+    throw authError;
+  }
+};
+
 export function useNotes(API_URL, store) {
   const [notes, setNotes] = useState([]);
   const [noteForm, setNoteForm] = useState({
@@ -29,11 +37,7 @@ export function useNotes(API_URL, store) {
         credentials: "include",
       });
 
-      if (response.status === 401 || response.status === 403) {
-        const authError = new Error("AUTHENTICATION_FAILED");
-        authError.code = "AUTHENTICATION_FAILED";
-        throw authError;
-      }
+      handleAuthError(response);
 
       if (!response.ok) throw new Error("Failed to fetch notes");
       const data = await response.json();
@@ -42,11 +46,15 @@ export function useNotes(API_URL, store) {
     } catch (error) {
       console.error("Error fetching notes:", error);
       if (error.code === "AUTHENTICATION_FAILED") {
-        setNotesError(error);
+        setNotesError({
+          code: "AUTHENTICATION_FAILED",
+          message: error.message,
+        });
       } else {
-        setNotesError(
-          "Failed to load notes from server. Using local fallback.",
-        );
+        setNotesError({
+          code: "GENERIC_ERROR",
+          message: "Failed to load notes from server. Using local fallback.",
+        });
       }
 
       try {
@@ -76,11 +84,7 @@ export function useNotes(API_URL, store) {
           body: JSON.stringify(noteForm),
         });
 
-        if (response.status === 401 || response.status === 403) {
-          const authError = new Error("AUTHENTICATION_FAILED");
-          authError.code = "AUTHENTICATION_FAILED";
-          throw authError;
-        }
+        handleAuthError(response);
 
         if (!response.ok) throw new Error("Failed to create note");
         const newNote = await response.json();
@@ -94,9 +98,15 @@ export function useNotes(API_URL, store) {
       } catch (error) {
         console.error("Error creating note:", error);
         if (error.code === "AUTHENTICATION_FAILED") {
-          setNotesError(error);
+          setNotesError({
+            code: "AUTHENTICATION_FAILED",
+            message: error.message,
+          });
         } else {
-          setNotesError("Failed to save note to server. Saved locally only.");
+          setNotesError({
+            code: "GENERIC_ERROR",
+            message: "Failed to save note to server. Saved locally only.",
+          });
         }
 
         const localNote = {

@@ -93,7 +93,11 @@ export function NotesPanel({
               {notesLoading ? "Saving..." : "Save Note"}
             </button>
           </form>
-          {notesError && <div className="error-banner">{notesError}</div>}
+          {notesError && (
+            <div className="error-banner">
+              {typeof notesError === "object" ? notesError.message : notesError}
+            </div>
+          )}
         </div>
 
         <div className="notes-history-section">
