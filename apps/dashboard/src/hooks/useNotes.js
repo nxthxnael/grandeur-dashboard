@@ -61,7 +61,7 @@ export function useNotes(API_URL, store) {
 
       try {
         const localNotes = store.get("dlrs_notes");
-        if (localNotes) {
+        if (localNotes && localNotes.value) {
           setNotes(JSON.parse(localNotes.value));
         }
       } catch (localError) {

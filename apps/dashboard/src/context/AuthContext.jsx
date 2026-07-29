@@ -17,12 +17,19 @@ export function AuthProvider({ children }) {
         credentials: "include",
       });
 
-      if (response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        console.warn("Authentication failed - user not authenticated");
+        setUser(null);
+      } else if (response.ok) {
         const userData = await response.json();
         setUser(userData);
+      } else {
+        console.warn(`Auth check failed with status: ${response.status}`);
+        setUser(null);
       }
     } catch (error) {
       console.error("Auth check failed:", error);
+      setUser(null);
     } finally {
       setLoading(false);
     }
