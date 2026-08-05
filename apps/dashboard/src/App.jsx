@@ -1022,7 +1022,7 @@ export default function App() {
   const [filter, setFilter] = useState("all");
   const [loaded, setLoaded] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
   // Notes feature hook
   const { notes, noteForm, setNoteForm, notesLoading, notesError, createNote } =
