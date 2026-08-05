@@ -47,17 +47,12 @@ export function useNotes(API_URL, store) {
       persistNotes(data);
     } catch (error) {
       console.error("Error fetching notes:", error);
-      if (error.code === "AUTHENTICATION_FAILED") {
-        setNotesError({
-          code: "AUTHENTICATION_FAILED",
-          message: error.message,
-        });
-      } else {
-        setNotesError({
-          code: "GENERIC_ERROR",
-          message: "Failed to load notes from server. Using local fallback.",
-        });
-      }
+      setNotesError(
+        normalizeNotesError(
+          error,
+          "Failed to load notes from server. Using local fallback.",
+        ),
+      );
 
       try {
         const localNotes = store.get("dlrs_notes");
@@ -99,17 +94,12 @@ export function useNotes(API_URL, store) {
         setNoteForm({ content: "", owner: "Dev", category: "" });
       } catch (error) {
         console.error("Error creating note:", error);
-        if (error.code === "AUTHENTICATION_FAILED") {
-          setNotesError({
-            code: "AUTHENTICATION_FAILED",
-            message: error.message,
-          });
-        } else {
-          setNotesError({
-            code: "GENERIC_ERROR",
-            message: "Failed to save note to server. Saved locally only.",
-          });
-        }
+        setNotesError(
+          normalizeNotesError(
+            error,
+            "Failed to save note to server. Saved locally only.",
+          ),
+        );
 
         const localNote = {
           id: Date.now().toString(),

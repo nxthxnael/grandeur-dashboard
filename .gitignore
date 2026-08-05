@@ -8,3 +8,5 @@ dist/
 apps/*/.env
 .env.local
 .env.*.local
+out/
+dlrs_local_export.json
