@@ -73,10 +73,13 @@ function generateSlug(text) {
     .trim();
 }
 
-// Escape SQL strings
-function escapeSqlString(str) {
-  if (str === null || str === undefined) return "NULL";
-  return "'" + str.replace(/'/g, "''") + "'";
+// Convert raw JS value to SQL literal
+function toSqlLiteral(value) {
+  if (value === null || value === undefined) return "NULL";
+  if (typeof value === "boolean") return value ? "true" : "false";
+  if (typeof value === "number") return value.toString();
+  if (typeof value === "string") return "'" + value.replace(/'/g, "''") + "'";
+  return "NULL";
 }
 
 // Parse App.jsx using AST to extract PHASES
@@ -102,11 +105,9 @@ function parsePhasesFromAppjsx(filePath) {
       ) {
         const init = node.declaration.declarations[0].init;
         if (init && init.type === "ArrayExpression") {
-          // Evaluate the array expression
+          // Evaluate the array expression by extracting source code
           try {
-            const code = parser.generateCode
-              ? parser.generateCode(init).code
-              : content.slice(init.start, init.end);
+            const code = content.slice(init.start, init.end);
             phases = eval(`(${code})`);
           } catch (e) {
             log.warn(`Could not evaluate PHASES AST: ${e.message}`);
@@ -237,7 +238,7 @@ function generateInsert(
   updateColumns = [],
 ) {
   const colList = columns.join(", ");
-  const valList = values.map((v) => (v === null ? "NULL" : v)).join(", ");
+  const valList = values.map((v) => toSqlLiteral(v)).join(", ");
 
   let sql = `INSERT INTO ${table} (${colList}) VALUES (${valList})`;
 
@@ -246,9 +247,10 @@ function generateInsert(
 
     if (conflictAction === "DO UPDATE" && updateColumns.length > 0) {
       const updates = updateColumns
-        .map((col, i) => {
+        .map((col) => {
           const val = values[columns.indexOf(col)];
-          return `${col} = ${val === null ? "EXCLUDED." + col : escapeSqlString(val)}`;
+          // Use EXCLUDED.col for upsert to reference the row being inserted
+          return `${col} = ${val === null ? "EXCLUDED." + col : toSqlLiteral(val)}`;
         })
         .join(", ");
       sql += ` DO UPDATE SET ${updates}`;
@@ -357,16 +359,16 @@ async function generateSeed() {
         "updated_at",
       ],
       [
-        `'${phaseId}'`,
-        `'${phaseSlug}'`,
-        `'${phase.code}'`,
-        `'${phase.title}'`,
-        `'${phase.weeks}'`,
-        `'${phase.color}'`,
-        `'${phase.bg}'`,
-        `'${phase.exitGate}'`,
-        `'${timestamp}'`,
-        `'${timestamp}'`,
+        phaseId,
+        phaseSlug,
+        phase.code,
+        phase.title,
+        phase.weeks,
+        phase.color,
+        phase.bg,
+        phase.exitGate,
+        timestamp,
+        timestamp,
       ],
       "slug",
       "DO NOTHING",
@@ -422,17 +424,17 @@ async function generateSeed() {
           "updated_at",
         ],
         [
-          `'${taskId}'`,
-          `'${taskSlug}'`,
-          `'${phaseId}'`,
-          `'${task.text}'`,
-          `'${task.text}'`,
+          taskId,
+          taskSlug,
+          phaseId,
+          task.text,
+          task.text,
           taskOrdinal,
-          task.critical ? "true" : "false",
-          task.owner ? `'${task.owner}'` : "NULL",
-          `'${taskStatus}'`,
-          `'${timestamp}'`,
-          `'${timestamp}'`,
+          task.critical,
+          task.owner || null,
+          taskStatus,
+          timestamp,
+          timestamp,
         ],
         "slug",
         taskConflictAction,
@@ -467,13 +469,7 @@ async function generateSeed() {
         sql += generateInsert(
           "task_notes",
           ["id", "task_id", "content", "created_at", "updated_at"],
-          [
-            `'${taskNoteId}'`,
-            `'${taskId}'`,
-            `'${taskNote}'`,
-            `'${timestamp}'`,
-            `'${timestamp}'`,
-          ],
+          [taskNoteId, taskId, taskNote, timestamp, timestamp],
           "id",
           "DO NOTHING",
         );
@@ -512,12 +508,12 @@ async function generateSeed() {
         "notes",
         ["id", "content", "owner", "category", "created_at", "updated_at"],
         [
-          `'${noteId}'`,
-          `'${note.content}'`,
-          note.owner ? `'${note.owner}'` : "NULL",
-          note.category ? `'${note.category}'` : "NULL",
-          `'${noteCreatedAt}'`,
-          `'${note.updated_at || noteCreatedAt}'`,
+          noteId,
+          note.content,
+          note.owner || null,
+          note.category || null,
+          noteCreatedAt,
+          note.updated_at || noteCreatedAt,
         ],
         "id",
         "DO NOTHING",
@@ -544,12 +540,12 @@ async function generateSeed() {
       "notes",
       ["id", "content", "owner", "category", "created_at", "updated_at"],
       [
-        `'${noteId}'`,
-        `'${note.content}'`,
-        note.owner ? `'${note.owner}'` : "NULL",
-        note.category ? `'${note.category}'` : "NULL",
-        `'${noteCreatedAt}'`,
-        `'${note.updated_at || noteCreatedAt}'`,
+        noteId,
+        note.content,
+        note.owner || null,
+        note.category || null,
+        noteCreatedAt,
+        note.updated_at || noteCreatedAt,
       ],
       "id",
       "DO NOTHING",
@@ -594,7 +590,17 @@ async function generateSeed() {
   // Validate against DB if connection string provided
   if (argv["validate-db"]) {
     log.section("Validating SQL against database...");
-    const { Pool } = require("pg");
+    let Pool;
+    try {
+      Pool = require("pg").Pool;
+    } catch (error) {
+      log.error(
+        "pg package not installed. Install it with: npm install --save-dev pg",
+      );
+      log.info("Or remove --validate-db flag to skip validation");
+      process.exit(1);
+    }
+
     const pool = new Pool({ connectionString: argv["validate-db"] });
 
     try {
