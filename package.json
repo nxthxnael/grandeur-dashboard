@@ -11,9 +11,15 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "generate-seed": "node scripts/generate-seed-from-local.js --local=dlrs_local_export.json --out=out/seed.sql --json=out/seed.json"
   },
   "devDependencies": {
-    "turbo": "^2.0.4"
+    "@babel/parser": "^7.29.8",
+    "chalk": "^6.0.0",
+    "fs-extra": "^11.4.0",
+    "minimist": "^1.2.8",
+    "turbo": "^2.0.4",
+    "uuid": "^14.0.1"
   }
 }

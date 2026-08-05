@@ -1,0 +1,776 @@
+{
+  "mappedTasks": [
+    {
+      "localId": "p0t1",
+      "generatedId": "960f455b-4c66-551e-a4b2-8e783a188663",
+      "slug": "initialise-turborepo-monorepo-structure-sas-001-v12-6",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p0t2",
+      "generatedId": "2b5a19f4-0d83-5d5c-86bd-58db96de8664",
+      "slug": "submit-safaricom-daraja-b2c-production-access-application-day-1",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p0t3",
+      "generatedId": "e39038c6-35fb-51f6-84a7-f5707734237b",
+      "slug": "submit-odpc-data-processor-registration-day-1",
+      "matchedBy": "id",
+      "status": "Skipped"
+    },
+    {
+      "localId": "p0t4",
+      "generatedId": "586c5376-b708-58a3-a9fe-2a1afa2320fa",
+      "slug": "submit-africas-talking-ussd-shortcode-application-day-1",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p0t5",
+      "generatedId": "1c34e96b-f68f-599c-97d1-dabaa9172fb0",
+      "slug": "deploy-postgresql-schema-migrations-from-dat-001-v12-ddl",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p0t6",
+      "generatedId": "5289614b-f670-5b4e-89f9-d44f6a0e9cb5",
+      "slug": "seed-insurance-publishing-domain-records-with-tiercontributing-pointslockenabled",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p0t7",
+      "generatedId": "515b8031-fb82-5fb1-a62c-70b0e853d124",
+      "slug": "generate-openapi-31-spec-from-api-001-v12",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p0t8",
+      "generatedId": "f660b3c7-232b-5114-8ed7-6c7c96749d7b",
+      "slug": "generate-zod-schemas-salewebhookschema-pointredemptionschema-domainconfigschema",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p0t9",
+      "generatedId": "e740de4e-3154-5ffd-a418-103f3bce3f51",
+      "slug": "nestjs-controller-stubs-notimplementedexception-skeleton",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p0t10",
+      "generatedId": "2052e2bb-87eb-5dbc-8641-2b1c2be042b9",
+      "slug": "docker-compose-local-dev-environment-pg16-redis-7-mock-mpesa",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p0t11",
+      "generatedId": "1443c10a-f342-57e6-9355-d8311760d466",
+      "slug": "github-actions-ci-pipeline-type-check-lint-test-on-every-pr",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p0t12",
+      "generatedId": "1f9ab19f-91fe-54f2-b5bc-bd4b04d4fad4",
+      "slug": "sentry-grafana-prometheus-in-staging",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p0t13",
+      "generatedId": "48ed8f71-2d20-5b43-8cf9-71ab8faef22d",
+      "slug": "generate-postmaninsomnia-collection-from-openapi-spec",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p1t1",
+      "generatedId": "0a47ab82-8e16-5c37-a2e9-c5c192b4eca0",
+      "slug": "authmodule-post-v1authregister-phone-otp",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t2",
+      "generatedId": "2f35ffd3-0b6a-5a1e-9275-67b2f35b17fc",
+      "slug": "authmodule-post-v1authlogin-jwt-15min-httponly-refresh-cookie",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t3",
+      "generatedId": "666324f1-0408-5822-8c11-3c1326097b8f",
+      "slug": "authmodule-post-v1authrefresh-theft-detection-rotation",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t4",
+      "generatedId": "5b6949b6-a840-5587-8e28-073611a36de9",
+      "slug": "authmodule-post-v1authmfaverify-totp-admin-elevation",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p1t5",
+      "generatedId": "58802f1c-b232-51bb-a21e-c27c8f57994f",
+      "slug": "domainmodule-admin-domain-crud-hmac-secret-generation",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p1t6",
+      "generatedId": "9ffe1a32-ee8b-5864-b97e-8cf1bbfd0030",
+      "slug": "domainmodule-commission-rule-configuration-with-50-cap-validation",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t7",
+      "generatedId": "38cbb3f4-27f5-518d-9fe7-6675f3d87f19",
+      "slug": "referralmodule-post-v1referralscodeclaim-closure-table-trigger",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t8",
+      "generatedId": "65d4f4f3-4d96-5d1a-b3b7-9e1eae3402b4",
+      "slug": "referralmodule-get-v1referralscodelanding",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t9",
+      "generatedId": "c8b4332e-4c87-5ba4-846c-056868e1a43e",
+      "slug": "get-v1usersme-profile-referralcode",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t10",
+      "generatedId": "87f35c36-a919-5ab0-87b3-b5f951ae38f9",
+      "slug": "integration-test-12-member-3-level-tree-verify-all-closure-table-rows",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p1t11",
+      "generatedId": "d1367a15-45d3-55b1-b3d3-6c8802eb1dd6",
+      "slug": "pointsmodule-memberwalletbalances-view-with-lockedglp-redeemableglp",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p1t12",
+      "generatedId": "8cdd87b5-2bcd-5ab5-9acd-164b842ee236",
+      "slug": "pointsmodule-get-v1pointsbalance-3-figure-per-wallet",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t13",
+      "generatedId": "7ecd182e-40aa-5df1-91df-72317cc02196",
+      "slug": "pointsmodule-post-v1pointsredeem-airtime-pointslockedforpremium-guard",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p1t14",
+      "generatedId": "44bcf163-7626-588d-b3f3-0d0a2b1fc159",
+      "slug": "points-lockservicets-lock-calculation-update-on-insurance-webhook",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p1t15",
+      "generatedId": "05458927-f088-5d4d-b420-34274bf1c212",
+      "slug": "data-erasure-capability-pii-pseudonymous-hash-built-alongside-member-table",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p1t16",
+      "generatedId": "bb9ab11a-8356-55f3-b7b4-09a54e279d8c",
+      "slug": "unit-tests-100-coverage-premium-lock-formula-at-all-threshold-conditions",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p2t1",
+      "generatedId": "9c139ed2-ac02-5ca4-b038-c27c6edd9912",
+      "slug": "go-commission-engine-grpc-server-on-localhost50051",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p2t2",
+      "generatedId": "64c98ebc-a2b3-5705-bdad-0289157b2d1f",
+      "slug": "domain-rule-retrieval-from-domaincommissionrules-redis-cache-5min-ttl",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p2t3",
+      "generatedId": "6c65faf9-e37d-5dd3-b13b-238506927cd8",
+      "slug": "bfs-tree-walk-via-closure-table-iterative-not-recursive-cte",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p2t4",
+      "generatedId": "7a6e3ca3-5225-53d2-8d24-6bbc860ca598",
+      "slug": "tiered-commission-calculation-int64-integer-arithmetic-no-float",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p2t5",
+      "generatedId": "72b58483-a573-506e-8aac-85ec23887605",
+      "slug": "wt-deduction-at-10-50-aggregate-cap-enforcement",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p2t6",
+      "generatedId": "da2c2989-bc06-54ab-b820-29170c43fe43",
+      "slug": "batch-ledger-writes-single-postgresql-transaction-for-all-ancestor-entries",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p2t7",
+      "generatedId": "612a9b81-59d8-5d7d-a100-6a21818c10e1",
+      "slug": "human-line-by-line-review-of-commission-math-against-dat-001-v12-formula",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p2t8",
+      "generatedId": "932cef41-d406-510e-b89e-8ae3da3b2e12",
+      "slug": "unit-tests-independently-written-all-11-rates-wt-boundaries-50-cap",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p2t9",
+      "generatedId": "e9384c1f-0c64-5abe-973b-aa88cca2e5c6",
+      "slug": "bullmq-queues-sale-events-commission-calc-payout-dispatch-dlq-slack-alert-fraud-check",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p2t10",
+      "generatedId": "65b5562f-1f56-5d56-8a04-28a0b5b28203",
+      "slug": "post-v1webhookssaledomainslug-hmac-verify-zod-enqueue-immediate-200",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p2t11",
+      "generatedId": "39c71782-0183-52df-8622-c84fb5bcf516",
+      "slug": "daraja-b2c-dispatch-idempotency-key-commissionledger-uuid",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p2t12",
+      "generatedId": "5025b165-8889-5b0f-b6f0-041e0afa8064",
+      "slug": "post-v1webhooksmpesacallback-update-ledger-confirmed-notify-member",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p2t13",
+      "generatedId": "74e42712-c130-5e7e-998b-a6a6ac6711ed",
+      "slug": "payout-state-machine-pending-dispatched-confirmed-paid-no-skipping",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p2t14",
+      "generatedId": "48f2ebb9-3e91-5fc1-a9de-e9a82620c76e",
+      "slug": "reconciliation-cron-every-6h-query-daraja-for-dispatched-rows-10min-old",
+      "matchedBy": "id",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p2t15",
+      "generatedId": "110c1b3d-4a77-598a-9c29-caae9e80c55f",
+      "slug": "kra-materialised-view-krawtsummary-deployed-nightly-refresh-schedule",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p2t16",
+      "generatedId": "afe4ef15-ab4d-5c33-9dd4-0dc3c02d7e04",
+      "slug": "remaining-redemption-types-mpesa-cash-merchandise-purchase-discounts",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p2t17",
+      "generatedId": "98b82df3-93a4-5482-a524-b880528370a0",
+      "slug": "post-v1pointstransfer-within-domain-only",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p2t18",
+      "generatedId": "bc258901-7b0e-5c46-a9d4-c67452f1724b",
+      "slug": "get-v1commissions-sub-endpoints-commission-rules-api",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t1",
+      "generatedId": "13e47170-6b03-51ef-af1a-d508330ff233",
+      "slug": "fcfs-resolverservicets-bfs-via-closure-table-depth-1-4-oldest-first-ordering",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p3t2",
+      "generatedId": "caa31972-5fa4-5d5c-8f1c-caa30197fa1d",
+      "slug": "redis-cache-fcfsmemberid-ttl-30s-invalidated-on-membertree-insert-in-sub-tree",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p3t3",
+      "generatedId": "7c570887-167c-5de5-963a-34b60679818b",
+      "slug": "get-v1usersme-add-activereferralcode-activereferralurl-directslotsused-shareeventid",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t4",
+      "generatedId": "92e1547c-521f-5d9d-96dd-6ffde8535a8f",
+      "slug": "get-v1referralscodelanding-fallback-cascade-redirected-originalcode-resolvedcode",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t5",
+      "generatedId": "f5a2dbd8-6c37-5624-9ecf-4b02134fa919",
+      "slug": "get-v1referralsresolvecode-admin-debug-endpoint",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t6",
+      "generatedId": "3f0410e3-b9c7-569c-8c3b-8f44b56d3b36",
+      "slug": "post-v1referralsshare-event-fire-and-forget-channel-recording",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t7",
+      "generatedId": "5ddc5690-315c-5fa2-86b3-a7c8a397b873",
+      "slug": "insert-to-referralshareevents-on-every-fcfs-resolution",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t8",
+      "generatedId": "6d761efb-25d0-55b6-8b80-8cf414f1e238",
+      "slug": "integration-test-member-with-33-slots-activereferralurl-resolves-to-sub-member",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t9",
+      "generatedId": "0c84d438-499e-5647-a734-5ec6170ee4cb",
+      "slug": "premium-lock-full-implementation-renewal-webhook-updates-lock-threshold",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t10",
+      "generatedId": "9b6836ab-454b-5617-b9e8-35aac955c2d1",
+      "slug": "exit-gate-test-renewal-webhook-lock-threshold-updates-redeemableglp-changes",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t11",
+      "generatedId": "4456b775-310d-5458-8fce-f5a899ae82d6",
+      "slug": "amd-001-activation-confirm-tiercontributingtrue-for-both-founding-domains-in-seed-db",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t12",
+      "generatedId": "709b9846-df07-5c26-a3ab-007041abc1a7",
+      "slug": "pointsmodule-balance-query-joins-membertierbalances-returns-totalglp-tier-tierprogresspercent",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t13",
+      "generatedId": "efba208d-561c-5115-8b37-a1997c1bb4a6",
+      "slug": "tier-advancement-check-after-every-confirmed-pointsledger-insert",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p3t14",
+      "generatedId": "49be13b9-07c3-5389-9f9b-83d7bdbec90a",
+      "slug": "memberstier-column-update-tier-advancement-smspush-notification",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p4t1",
+      "generatedId": "7a54bfd1-7e01-5d41-b11d-581179c38f53",
+      "slug": "ussd-handler-africas-talking-session-callbacks-full-state-machine",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p4t2",
+      "generatedId": "d60a3abe-5acc-5211-909a-4e657a6a569d",
+      "slug": "ussd-balance-check-3-figure-lockedredeemable-referral-link-via-fcfs-resolver-smsd",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p4t3",
+      "generatedId": "be86452f-75cc-59b0-be34-796c9bd99694",
+      "slug": "ussd-dynamic-domain-list-from-domains-table-airtime-redemption",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p4t4",
+      "generatedId": "5b7e4594-41fe-53b9-b917-a07be7b5dd4e",
+      "slug": "ci-test-all-ussd-strings-182-chars-for-en-ke-and-sw-ke-at-max-variable-substitution",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p4t5",
+      "generatedId": "bd17a891-c3dd-5c16-a3db-d62685ecc890",
+      "slug": "notification-channels-africas-talking-sms-fcm-push-resend-transactional-email",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p4t6",
+      "generatedId": "496962c2-0e1e-5bac-b941-2b1373982fbe",
+      "slug": "react-native-home-screen-redeemableglp-headline-totalglp-secondary-tier-progress-bar",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p4t7",
+      "generatedId": "abf7f1d5-9da1-5c31-80b6-c588dc3ef386",
+      "slug": "react-native-points-screen-3-figure-wallet-list-domain-filter-export-to-print",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p4t8",
+      "generatedId": "6899a590-b89a-5efa-99ed-5447e7f644bb",
+      "slug": "react-native-profile-screen-qr-encodes-activereferralurl-fcfs-attribution-label",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p4t9",
+      "generatedId": "b756b2c7-044e-5e07-bd68-8156d3c00def",
+      "slug": "react-native-redeem-screen-redeemableglp-maximum-enforced-client-side",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p4t10",
+      "generatedId": "6128e190-3d10-5d49-93f5-17b32ebbf9a9",
+      "slug": "react-native-referral-tree-expandable-3-levels-tier-colour-activeinactive",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p4t11",
+      "generatedId": "5dc10427-3852-5976-9c86-d5f0a9748e6d",
+      "slug": "share-flow-invariant-test-share-button-uses-activereferralurl-never-referralcode",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p4t12",
+      "generatedId": "e8d8a1d1-f9d2-556e-90eb-d911f6442c39",
+      "slug": "offline-tanstackreact-query-staletime-5min-expo-sqlite-mutation-queue",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p4t13",
+      "generatedId": "84598d60-b9c4-5bb8-87bd-9409896abd6d",
+      "slug": "preact-pwa-referral-landing-page-member-points-dashboard",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p4t14",
+      "generatedId": "246c729a-fefb-5d37-aba3-ba0d5ab58903",
+      "slug": "pwa-service-worker-offline-balance-caching-add-to-home-screen",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p4t15",
+      "generatedId": "6ce610d4-7f96-538e-87fb-a22bb3f16d1b",
+      "slug": "lighthouse-ci-fcp-2s-on-3g-initial-bundle-30kb-gzipped",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p4t16",
+      "generatedId": "e4920f99-72da-57ad-98d5-9410fd6b4308",
+      "slug": "print-css-engine-media-print-a4-layout-commission-statement",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p4t17",
+      "generatedId": "374c0c27-c9c1-5ce2-a7b0-2f34b25f3bb5",
+      "slug": "print-css-referral-tree-summary-4-level-indented-obfuscated-codes",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p4t18",
+      "generatedId": "f5508d58-2959-5eff-b833-140b2d8ded80",
+      "slug": "print-css-loyalty-certificate-tier-status-glp-balance-grandeur-branding",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p5t1",
+      "generatedId": "343ddc65-1ad9-597f-a716-564af132269e",
+      "slug": "fraudmodule-velocity-max-5-referralsmemberday-max-3-signupsiphour-two-separate-rules",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p5t2",
+      "generatedId": "c5e08a35-5461-5c73-88f6-cb02d021c517",
+      "slug": "fraudmodule-device-fingerprinting-fingerprintjs-pro-devicehash-per-member",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p5t3",
+      "generatedId": "34e6c384-845d-5859-aa3d-472875ef8604",
+      "slug": "fraudmodule-phone-validation-block-disposablevirtual-sim",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p5t4",
+      "generatedId": "845c7f42-63fc-54bc-8826-5187c1d25762",
+      "slug": "fraudmodule-pending-state-enforcement-until-sale-confirmed-by-partner",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p5t5",
+      "generatedId": "c84dac78-79ad-52a9-8a5c-bcc1e0f9c51b",
+      "slug": "post-v1adminfraudresolveid-approve-hold-reject",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p5t6",
+      "generatedId": "201ea9f9-5602-5ea3-b3c1-3ebfe4b1269c",
+      "slug": "admin-dashboard-member-management-search-filter-suspend",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p5t7",
+      "generatedId": "3f6e010b-1eef-5f24-9761-84991bafb490",
+      "slug": "admin-d3-tree-visualisation-tier-colours-slot-capacity-badges-fcfs-amber-border",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p5t8",
+      "generatedId": "3c34a59d-94fd-5c34-b3c2-73ae03ed43d8",
+      "slug": "admin-fraud-review-queue-with-sse-real-time-updates-from-v1adminevents",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p5t9",
+      "generatedId": "5b78ab44-32fd-5a11-b40d-e2acaa404907",
+      "slug": "admin-domain-management-panel-lock-toggle-tier-toggle-secret-rotation",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p5t10",
+      "generatedId": "8c062e4e-9c7e-561f-a58c-983d9f03726d",
+      "slug": "admin-kra-commission-payout-reporting-audit-log-viewer",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p5t11",
+      "generatedId": "a64a01e5-e2fd-5ec8-bcc7-2865295412c5",
+      "slug": "ai-insurance-product-parser-insuranceproductaischema-forced-toolchoice-kes-hundredths",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p5t12",
+      "generatedId": "48405ce6-2b68-5be3-9ffc-573d7ed40795",
+      "slug": "ai-publishing-catalogue-parser-publishingproductaischema",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p5t13",
+      "generatedId": "a0ebd4ae-029c-5e07-994b-6c7517c67351",
+      "slug": "ai-fraud-explainer-english-swahili-approveholdreject-recommendation",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p5t14",
+      "generatedId": "a5e54c2c-9533-5a81-9bb5-5eb662e832ce",
+      "slug": "ai-admin-nlq-via-read-only-dlrs-db-mcp-server-audit-logged",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p5t15",
+      "generatedId": "eea3ae1a-9cba-5e14-8b23-593d16245d06",
+      "slug": "aiservice-redis-per-minute-token-budget-counter",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t1",
+      "generatedId": "46c83524-ab1e-5f89-b6b4-62b09b8ae45c",
+      "slug": "pino-structured-json-logging-every-auth-event-commission-write-payout-dispatch-fraud-flag",
+      "matchedBy": "id",
+      "status": "Done"
+    },
+    {
+      "localId": "p6t2",
+      "generatedId": "2ad30a4a-c437-5ec2-a5f8-faa4d74ffbfb",
+      "slug": "opentelemetry-traces-webhook-bullmq-go-engine-daraja",
+      "matchedBy": "id",
+      "status": "Blocked"
+    },
+    {
+      "localId": "p6t3",
+      "generatedId": "bcd488c9-b6cc-580b-8290-213e3bf747ac",
+      "slug": "prometheus-metrics-queue-depth-dlq-depth-payout-rate-mpesa-sla-commission-latency",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p6t4",
+      "generatedId": "0fa6cc3c-7d8d-5ce8-8e6f-ea5de5c0e8c2",
+      "slug": "critical-alert-payout-dispatch-dlq-depth-0-slack-within-5-minutes",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p6t5",
+      "generatedId": "c6a83d45-d379-533b-92e6-0e9ce6a64b8a",
+      "slug": "grafana-dashboards-queue-health-payout-monitoring-member-growth-tier-distribution",
+      "matchedBy": "id",
+      "status": "In Progress"
+    },
+    {
+      "localId": "p6t6",
+      "generatedId": "9be14c61-fb92-552c-b3f3-43d03ea0b664",
+      "slug": "load-test-10k-concurrent-users-500-sale-eventsmin-p99-500ms-fcfs-bfs-5ms",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t7",
+      "generatedId": "4683e43b-c773-53f8-b7c2-e9669c8360f9",
+      "slug": "security-audit-owasp-top-10-vs-sec-001-v11-hmac-bypass-attempts-jwt-theft-scenarios",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t8",
+      "generatedId": "fcde79f2-a95c-588c-9e82-4d32940218de",
+      "slug": "cloudflare-waf-rule-validation-pgcrypto-pii-encryption-verification",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t9",
+      "generatedId": "7d1f41dc-9972-59d0-9bc8-bcbec04b10a2",
+      "slug": "full-staging-e2e-registration-referral-sale-commission-daraja-payout",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t10",
+      "generatedId": "7c75001c-a191-5beb-a184-37e7b40a7012",
+      "slug": "staging-e2e-fcfs-cascade-premium-lock-tier-advancement-ussd-print-docs-fraud",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t11",
+      "generatedId": "57c07def-e181-5a9d-807b-9bd50b146676",
+      "slug": "joint-webhook-testing-with-insurance-publishing-anchor-partners",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t12",
+      "generatedId": "5c36a8d6-bf95-5a60-92a9-d8f3d5b6aa30",
+      "slug": "aws-ecs-fargate-nestjs-api-2-go-sidecar-rds-multi-az-elasticache-replication",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t13",
+      "generatedId": "0fd34f2c-0642-5a2f-a3e6-6adcf53baa80",
+      "slug": "cloudfront-distributions-for-admin-spa-customer-pwa",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t14",
+      "generatedId": "989dd543-3584-5a85-b0e1-0c99ae04585a",
+      "slug": "cloudflare-dns-ssl-waf-rate-limiting-af-south-1-routing",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t15",
+      "generatedId": "6b24bec9-a58c-51b7-a790-7511bb4d84d6",
+      "slug": "aws-secrets-manager-automated-pg-snapshots-wal-archiving-to-s3",
+      "matchedBy": "default",
+      "status": "Not Started"
+    },
+    {
+      "localId": "p6t16",
+      "generatedId": "f4b51f81-cb6d-5fdb-8a79-3e2bb5a5b049",
+      "slug": "confirm-odpc-registration-received-before-production-smoke-test",
+      "matchedBy": "default",
+      "status": "Not Started"
+    }
+  ],
+  "unmappedStatuses": [],
+  "unmappedNotes": []
+}
